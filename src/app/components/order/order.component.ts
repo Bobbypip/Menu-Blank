@@ -14,6 +14,7 @@ import { FriesOrderService } from '../../services/fries-order.service';
 export class OrderComponent implements OnInit {
   public friesOrder: FriesOrder;
   public portionOrder: Portion;
+  public extraPortion: boolean;
   public extraPortionOrder: ExtraPortion;
   public extraPortionsArr: ExtraPortion[];
   public dressingsOrder: DressingsOrder;
@@ -24,6 +25,7 @@ export class OrderComponent implements OnInit {
     private _friesOrderService: FriesOrderService
   ) { 
     this.portionOrder = new Portion(0,'');
+    this.extraPortion = false;
     this.extraPortionOrder = new ExtraPortion(0,'');
     this.extraPortionsArr = [];
     this.dressingsOrder = new DressingsOrder(
@@ -42,38 +44,27 @@ export class OrderComponent implements OnInit {
 
     // Set initial values for friesOrder
     this.friesOrder = new FriesOrder(
-      new Portion(0,''),
-      false,
-      [],
-      new DressingsOrder(
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ),
+      this.portionOrder,
+      this.extraPortion,
+      this.extraPortionsArr,
+      this.dressingsOrder,
       0
     );
   }
 
   ngOnInit(): void {
-    console.log(this.friesOrder.fPrice);
+    console.log(this.friesOrder);
     //console.log(this.dressingsOrder);
   }
 
-  onSubmit(form){
-    console.log(this.friesOrder);
-    //form.reset();
+  onChangePortion(){
+    //console.log("pepe");
+    this.friesOrder.fPortion = this.portionOrder;
   }
 
   addOnePortion(){
     console.log("hiolka");
+    console.log(this.friesOrder.fPortion);
     this.extraPortionsArr.push(this.extraPortionOrder);
     //console.log(this.extraPortionsArr);
   }
@@ -83,6 +74,17 @@ export class OrderComponent implements OnInit {
     this.extraPortionsArr.splice(pos, 1);
     //console.log(this.extraPortionsArr);
   }
+
+  onSubmit(form){
+    console.log(this.friesOrder);
+    //form.reset();
+  }
+
+  
+
+  
+
+  
 
 }
 
