@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Portion } from '../models/portion';
 import { ExtraPortion } from '../models/extraPortion';
+import { FriesOrder } from '../models/friesOrder';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FriesOrderService {
-
-  constructor() { }
+  private friesOrdersArr: FriesOrder[];
+  constructor() { 
+    this.friesOrdersArr = [];
+  }
 
   getTexto(): string {
     return "Hola bb";
@@ -31,5 +34,10 @@ export class FriesOrderService {
       new ExtraPortion(15, "Arrachera")
     ];
   }
-  
+
+  addFriesOrder(friesOrder): void{
+    this.friesOrdersArr.push(friesOrder);
+    //console.log(this.friesOrdersArr);
+  }
+
 }

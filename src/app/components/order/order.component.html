@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        {{portionOrder.name}}
+        {{friesOrder.fPortion.name}}
 
         <div class="form-group row">
             <div class="col-sm-2 pt-2">Quieres una porción extra?</div>
@@ -36,7 +36,6 @@
         <div class="form-group row" *ngIf="friesOrder.fExtraPortion">
             <label class="col-sm-2 col-form-label" for="extraPortion" >Agrega las porciones extra que quieras:</label>
             <div class="col-sm-3 pt-3">
-
                 <select class="custom-select" name="extraPortion" [(ngModel)]="extraPortionOrder">
                     <option *ngFor="let extraPortionItem of extraPortions" [ngValue]="extraPortionItem" >{{extraPortionItem.name}}</option>
                 </select>
@@ -46,8 +45,6 @@
                 <div (click)="deleteOnePortion()" class="minus"></div>
             </div>
         </div>
-
-        {{extraPortionOrder.name}}
 
         <!-- PASO 2 -->
         <div class="mb-4">
@@ -61,83 +58,85 @@
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Selecciona los aderezos que gustes:</legend>
 
+                
+
                 <!--Dressings-->
                 <div class="col-sm-6 d-flex justify-content-around">
                     <div>
                         <!--1 part-->
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolQuesoAmarillo" [(ngModel)]="dressingsOrder.quesoAmarillo">
+                            <input class="form-check-input" type="checkbox" name="boolQuesoAmarillo" [(ngModel)]="friesOrder.fDressingsOrder.quesoAmarillo">
                             <label class="form-check-label" for="boolQuesoAmarillo">
                                 Queso amarillo
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolSalsaBuffalo" [(ngModel)]="dressingsOrder.salsaBuffalo">
+                            <input class="form-check-input" type="checkbox" name="boolSalsaBuffalo" [(ngModel)]="friesOrder.fDressingsOrder.salsaBuffalo">
                             <label class="form-check-label" for="boolSalsaBuffalo">
                                 Salsa Buffalo
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolRanch" [(ngModel)]="dressingsOrder.ranch">
+                            <input class="form-check-input" type="checkbox" name="boolRanch" [(ngModel)]="friesOrder.fDressingsOrder.ranch">
                             <label class="form-check-label" for="boolRanch">
                                 Ranch
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolCilantro" [(ngModel)]="dressingsOrder.cilantro">
+                            <input class="form-check-input" type="checkbox" name="boolCilantro" [(ngModel)]="friesOrder.fDressingsOrder.cilantro">
                             <label class="form-check-label" for="boolCilantro">
                                 Cilantro
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolPinaHabanero" [(ngModel)]="dressingsOrder.pinaHabanero">
+                            <input class="form-check-input" type="checkbox" name="boolPinaHabanero" [(ngModel)]="friesOrder.fDressingsOrder.pinaHabanero">
                             <label class="form-check-label" for="boolPinaHabanero">
                                 Piña habanero
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolSalsaBBQ" [(ngModel)]="dressingsOrder.salsaBBQ">
+                            <input class="form-check-input" type="checkbox" name="boolSalsaBBQ" [(ngModel)]="friesOrder.fDressingsOrder.salsaBBQ">
                             <label class="form-check-label" for="boolSalsaBBQ">
                                 Salsa BBQ
                             </label>
                         </div>
                         <!--End Part 1-->
                     </div>
+
                     <div>
                         <!--Part 2-->
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolKetchup" [(ngModel)]="dressingsOrder.ketchup">
+                            <input class="form-check-input" type="checkbox" name="boolKetchup" [(ngModel)]="friesOrder.fDressingsOrder.ketchup">
                             <label class="form-check-label" for="boolKetchup">
                                 Ketchup
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolChimichurri" [(ngModel)]="dressingsOrder.chimichurri">
+                            <input class="form-check-input" type="checkbox" name="boolChimichurri" [(ngModel)]="friesOrder.fDressingsOrder.chimichurri">
                             <label class="form-check-label" for="boolChimichurri">
                                 Chimichurri
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolTamarindoPicante" [(ngModel)]="dressingsOrder.tamarindoPicante">
+                            <input class="form-check-input" type="checkbox" name="boolTamarindoPicante" [(ngModel)]="friesOrder.fDressingsOrder.tamarindoPicante">
                             <label class="form-check-label" for="boolTamarindoPicante">
                                 Tamarindo Picante
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolSalsaVerde" [(ngModel)]="dressingsOrder.salsaVerde">
+                            <input class="form-check-input" type="checkbox" name="boolSalsaVerde" [(ngModel)]="friesOrder.fDressingsOrder.salsaVerde">
                             <label class="form-check-label" for="boolSalsaVerde">
                                 Salsa Verde
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="boolCebollitaAsada" [(ngModel)]="dressingsOrder.cebollaAsada">
+                            <input class="form-check-input" type="checkbox" name="boolCebollitaAsada" [(ngModel)]="friesOrder.fDressingsOrder.cebollaAsada">
                             <label class="form-check-label" for="boolCebollitaAsada">
                                 Cebollita Asada
                             </label>
                         </div>
                         <!--End Part 2-->
                     </div>
-
                 </div>
 
             </div>
