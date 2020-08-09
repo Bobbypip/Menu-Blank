@@ -14,8 +14,10 @@ import { FriesOrderService } from '../../services/fries-order.service';
 export class OrderComponent implements OnInit {
   public friesOrder: FriesOrder;
   public extraPortionOrder: ExtraPortion;
+  public orders: FriesOrder[];
   public portions = this._friesOrderService.getPortions();
   public extraPortions = this._friesOrderService.getExtraPortions();
+  public i: number = 0;
 
   constructor(
     private _friesOrderService: FriesOrderService
@@ -40,17 +42,23 @@ export class OrderComponent implements OnInit {
       ),
       0
     );
+    this.orders = [];
   }
 
   ngOnInit(): void {
     console.log(this.friesOrder);
-    //console.log(this.dressingsOrder);
+    if(typeof(Storage) != 'undefined'){
+      console.log("Localstorage disponible");
+    }else{
+      console.log("INcomp")
+    }
   }
 
   addOnePortion(){
     console.log("hiolka");
-    console.log(this.friesOrder.fPortion);
-    this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
+    if(this.extraPortionOrder.name!=null){
+      this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
+    }
     //console.log(this.extraPortionsArr);
   }
 
@@ -61,16 +69,22 @@ export class OrderComponent implements OnInit {
   }
 
   onSubmit(form){
-    this._friesOrderService.addFriesOrder(this.friesOrder);
-    console.log(this.friesOrder);
-    //form.reset();
+    //this._friesOrderService.addFriesOrder(this.friesOrder);
+    localStorage.setItem(this.i.toString(), JSON.stringify(this.friesOrder));
+    this.i++;
+    //console.log(this.orders);
+    form.reset();
+    this.friesOrder.fDressingsOrder.cebollaAsada = false;
+    this.friesOrder.fDressingsOrder.chimichurri = false;
+    this.friesOrder.fDressingsOrder.cilantro = false;
+    this.friesOrder.fDressingsOrder.ketchup = false;
+    this.friesOrder.fDressingsOrder.pinaHabanero = false;
+    this.friesOrder.fDressingsOrder.quesoAmarillo = false;
+    this.friesOrder.fDressingsOrder.ranch = false;
+    this.friesOrder.fDressingsOrder.salsaBBQ = false;
+    this.friesOrder.fDressingsOrder.salsaBuffalo = false;
+    this.friesOrder.fDressingsOrder.salsaVerde = false;
+    this.friesOrder.fDressingsOrder.tamarindoPicante = false;
   }
-
-  
-
-  
-
-  
-
 }
 
