@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FriesOrder } from '../../models/friesOrder';
 import { Portion } from '../../models/portion';
-import { ExtraPortionSpecial } from '../../models/extraPortionSpecial';
-import { ExtraPortionPremium } from '../../models/extraPortionPremium';
+import { ExtraPortion } from '../../models/extraPortion';
 import { DressingsOrder } from '../../models/dessingsOrder';
 import { FriesOrderService } from '../../services/fries-order.service';
 
@@ -15,10 +14,9 @@ import { FriesOrderService } from '../../services/fries-order.service';
 export class OrderComponent implements OnInit {
   public friesOrder: FriesOrder;
   public portionOrder: Portion;
-  public extraPortionEspecialArr: ExtraPortionSpecial[];
-  public extraPortionPremiumArr: ExtraPortionPremium[];
+  public extraPortionOrder: ExtraPortion;
+  public extraPortionsArr: ExtraPortion[];
   public dressingsOrder: DressingsOrder;
-  public portionSelect: string = "";
   public portions = this._friesOrderService.getPortions();
   public extraPortions = this._friesOrderService.getExtraPortions();
 
@@ -26,8 +24,8 @@ export class OrderComponent implements OnInit {
     private _friesOrderService: FriesOrderService
   ) { 
     this.portionOrder = new Portion(0,'');
-    this.extraPortionEspecialArr = [];
-    this.extraPortionPremiumArr = [];
+    this.extraPortionOrder = new ExtraPortion(0,'');
+    this.extraPortionsArr = [];
     this.dressingsOrder = new DressingsOrder(
       false,
       false,
@@ -44,25 +42,47 @@ export class OrderComponent implements OnInit {
 
     // Set initial values for friesOrder
     this.friesOrder = new FriesOrder(
-      this.portionOrder,
+      new Portion(0,''),
       false,
-      this.extraPortionEspecialArr,
-      this.extraPortionPremiumArr,
-      this.dressingsOrder,
+      [],
+      new DressingsOrder(
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ),
       0
-    ); 
+    );
   }
 
   ngOnInit(): void {
-    console.log(this._friesOrderService.getPortions());
+    console.log(this.friesOrder.fPrice);
+    //console.log(this.dressingsOrder);
   }
 
   onSubmit(form){
+    console.log(this.friesOrder);
+    //form.reset();
   }
 
-  addPortion(){
+  addOnePortion(){
     console.log("hiolka");
-    console.log(this.friesOrder.dressingsOrder.cilantro);
-    console.log(this.friesOrder.dressingsOrder.ranch);
+    this.extraPortionsArr.push(this.extraPortionOrder);
+    //console.log(this.extraPortionsArr);
   }
+
+  deleteOnePortion(){
+    let pos = this.extraPortionsArr.map(function(e) { return e.name; }).indexOf(this.extraPortionOrder.name);
+    this.extraPortionsArr.splice(pos, 1);
+    //console.log(this.extraPortionsArr);
+  }
+
 }
+

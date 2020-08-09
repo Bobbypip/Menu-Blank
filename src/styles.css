@@ -7,22 +7,22 @@
     cursor:pointer;
 }
 
-.mas{
+.plus{
     width: 32px;
     height: 32px;
     background: url(./app/assets/icons/mas1.png) no-repeat;
 }
 
-.mas:hover{
+.plus:hover{
     background: url(./app/assets/icons/mas2.png) no-repeat;
 }
 
-.menos{
+.minus{
     width: 32px;
     height: 32px;
     background: url(./app/assets/icons/menos1.png) no-repeat;
 }
 
-.menos:hover{
+.minus:hover{
     background: url(./app/assets/icons/menos2.png) no-repeat;
 }

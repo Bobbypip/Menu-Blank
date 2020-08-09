@@ -1,23 +1,20 @@
 import { Portion } from './portion';
-import { ExtraPortionSpecial } from './extraPortionSpecial';
-import { ExtraPortionPremium } from './extraPortionPremium';
+import { ExtraPortion } from './extraPortion';
 import { DressingsOrder } from './dessingsOrder';
 
 export class FriesOrder {
     constructor(
     // portion
-    public portion: Portion,
+    public fPortion: Portion,
 
     // extraPortions
-    public extraPortion: boolean,
-    public extraPortionsSpecial: ExtraPortionSpecial[],
-    public extraPortionsPremium: ExtraPortionPremium[],
+    public fExtraPortion: boolean,
+    public fExtraPortions: ExtraPortion[],
 
     // deressings
-    public dressingsOrder: DressingsOrder,
+    public fDressingsOrder: DressingsOrder,
 
     // price
-    public price: number,
+    public fPrice: number,
     ){}
-    
 }

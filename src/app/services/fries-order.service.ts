@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Portion } from '../models/portion';
+import { ExtraPortion } from '../models/extraPortion';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,13 @@ export class FriesOrderService {
     ];
   }
 
-  getExtraPortions(): string[]{
-    return ["Tocino", "Pastor", "Boneless", "Arrachera"];
+  getExtraPortions(): ExtraPortion[]{
+    return [
+      new ExtraPortion(10, "Tocino"),
+      new ExtraPortion(10, "Pastor"),
+      new ExtraPortion(10, "Boneless"),
+      new ExtraPortion(15, "Arrachera")
+    ];
   }
+  
 }

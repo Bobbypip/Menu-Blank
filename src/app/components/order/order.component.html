@@ -36,19 +36,18 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="extraPortion" >Agrega las porciones extra que quieras:</label>
             <div class="col-sm-3 pt-3">
-                <select class="custom-select" name="extraPortion">
-                    <option selected>Porciones...</option>
-                    <option value="Tocino">Tocino</option>
-                    <option value="Pastor">Pastor</option>
-                    <option value="Boneless">Boneless</option>
-                    <option value="Arrachera">Arrachera</option>
+
+                <select class="custom-select" name="extraPortion" [(ngModel)]="extraPortionOrder">
+                    <option *ngFor="let extraPortionItem of extraPortions" [ngValue]="extraPortionItem" >{{extraPortionItem.name}}</option>
                 </select>
             </div>
             <div class="col-sm-2 extraPortionButton d-flex justify-content-around">
-                <div (click)="addPortion()" class="mas"></div>
-                <div class="menos"></div>
+                <div (click)="addOnePortion()" class="plus"></div>
+                <div (click)="deleteOnePortion()" class="minus"></div>
             </div>
         </div>
+
+        {{extraPortionOrder.name}}
 
         <!-- PASO 2 -->
         <div class="mb-4">
@@ -140,7 +139,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
         </fieldset>
 
