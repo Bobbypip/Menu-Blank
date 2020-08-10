@@ -4,6 +4,7 @@ import { Portion } from '../../models/portion';
 import { ExtraPortion } from '../../models/extraPortion';
 import { DressingsOrder } from '../../models/dessingsOrder';
 import { FriesOrderService } from '../../services/fries-order.service';
+import { ExtraPortionOrderQuantity } from '../../models/extraPortionOrderQuantity';
 
 @Component({
   selector: 'app-order',
@@ -14,15 +15,15 @@ import { FriesOrderService } from '../../services/fries-order.service';
 export class OrderComponent implements OnInit {
   public friesOrder: FriesOrder;
   public extraPortionOrder: ExtraPortion;
-  public orders: FriesOrder[];
   public portions = this._friesOrderService.getPortions();
   public extraPortions = this._friesOrderService.getExtraPortions();
-  public i: number = 0;
+  public i: number;
+  public extraPortionOrdersQuantity: ExtraPortionOrderQuantity[];
 
   constructor(
     private _friesOrderService: FriesOrderService
   ) { 
-    // Set initial values for friesOrder
+    // Set initial values
     this.friesOrder = new FriesOrder(
       new Portion(0,''),
       false,
@@ -42,37 +43,42 @@ export class OrderComponent implements OnInit {
       ),
       0
     );
-    this.orders = [];
+    this.i = 0;
+    this.extraPortionOrdersQuantity = [];
   }
 
   ngOnInit(): void {
-    console.log(this.friesOrder);
+    //console.log(this.friesOrder);
     if(typeof(Storage) != 'undefined'){
-      console.log("Localstorage disponible");
     }else{
-      console.log("INcomp")
+      alert("Pruebe en otro navegador");
     }
   }
 
   addOnePortion(){
-    console.log("hiolka");
+    //console.log("hiolka");
     if(this.extraPortionOrder.name!=null){
       this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
+      this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
+      console.log(this.extraPortionOrdersQuantity);
     }
-    //console.log(this.extraPortionsArr);
   }
 
   deleteOnePortion(){
-    let pos = this.friesOrder.fExtraPortions.map(function(e) { return e.name; }).indexOf(this.extraPortionOrder.name);
-    this.friesOrder.fExtraPortions.splice(pos, 1);
-    //console.log(this.extraPortionsArr);
+    let posQuantity = this.extraPortionOrdersQuantity.map(i => i.extraPortionName).indexOf(this.extraPortionOrder.name);
+    if(this.extraPortionOrdersQuantity[posQuantity].quantity > 0){
+      let pos = this.friesOrder.fExtraPortions.map(i => i.name).indexOf(this.extraPortionOrder.name);
+      this.friesOrder.fExtraPortions.splice(pos, 1);
+      this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
+    }
+    console.log(this.extraPortionOrdersQuantity);
   }
 
   onSubmit(form){
     //this._friesOrderService.addFriesOrder(this.friesOrder);
     localStorage.setItem(this.i.toString(), JSON.stringify(this.friesOrder));
     this.i++;
-    //console.log(this.orders);
+    console.log(this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions));
     form.reset();
     this.friesOrder.fDressingsOrder.cebollaAsada = false;
     this.friesOrder.fDressingsOrder.chimichurri = false;

@@ -19,8 +19,6 @@
             </div>
         </div>
 
-        {{friesOrder.fPortion.name}}
-
         <div class="form-group row">
             <div class="col-sm-2 pt-2">Quieres una porción extra?</div>
             <div class="col-sm-10 pt-2">
@@ -40,9 +38,12 @@
                     <option *ngFor="let extraPortionItem of extraPortions" [ngValue]="extraPortionItem" >{{extraPortionItem.name}}</option>
                 </select>
             </div>
-            <div class="col-sm-2 extraPortionButton d-flex justify-content-around">
+            <div class="col-sm-2 extraPortionButton d-flex justify-content-around" *ngIf="extraPortionOrder">
                 <div (click)="addOnePortion()" class="plus"></div>
                 <div (click)="deleteOnePortion()" class="minus"></div>
+            </div>
+            <div class="col-sm-2">
+                {{friesOrder.fExtraPortions.length}}
             </div>
         </div>
 
@@ -57,8 +58,6 @@
         <fieldset class="form-group">
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Selecciona los aderezos que gustes:</legend>
-
-                
 
                 <!--Dressings-->
                 <div class="col-sm-6 d-flex justify-content-around">

@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Portion } from '../models/portion';
 import { ExtraPortion } from '../models/extraPortion';
 import { FriesOrder } from '../models/friesOrder';
+import { ExtraPortionOrderQuantity } from '../models/extraPortionOrderQuantity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FriesOrderService {
-  private friesOrdersArr: FriesOrder[];
   constructor() { 
-    this.friesOrdersArr = [];
   }
 
   getTexto(): string {
@@ -35,9 +34,13 @@ export class FriesOrderService {
     ];
   }
 
-  addFriesOrder(friesOrder): void{
-    this.friesOrdersArr.push(friesOrder);
-    //console.log(this.friesOrdersArr);
+  quantityOfEachExtraPortion(array: ExtraPortion[]): ExtraPortionOrderQuantity[]{
+    let arrResult: ExtraPortionOrderQuantity[] = [];
+    for (let extraPortion of this.getExtraPortions()){
+      var quantity = array.map(i => i.name).filter(i => i == extraPortion.name).length;
+      arrResult.push(new ExtraPortionOrderQuantity(quantity,extraPortion.name));
+    }
+    return arrResult;
   }
 
 }
