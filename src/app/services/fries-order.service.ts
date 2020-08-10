@@ -11,10 +11,6 @@ export class FriesOrderService {
   constructor() { 
   }
 
-  getTexto(): string {
-    return "Hola bb";
-  }
-
   getPortions(): Portion[]{
     return [
       new Portion(55,"Solo papas"),
@@ -41,6 +37,15 @@ export class FriesOrderService {
       arrResult.push(new ExtraPortionOrderQuantity(quantity,extraPortion.name));
     }
     return arrResult;
+  }
+
+  getPriceOfFriesOrder(friesOrder: FriesOrder): number{
+    let price: number = 0;
+    price += friesOrder.fPortion.price;
+    for(let priceOfExtraOrder of friesOrder.fExtraPortions){
+      price += priceOfExtraOrder.price;
+    }
+    return price;
   }
 
 }

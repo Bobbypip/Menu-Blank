@@ -25,6 +25,7 @@ export class OrderComponent implements OnInit {
   ) { 
     // Set initial values
     this.friesOrder = new FriesOrder(
+      0,
       new Portion(0,''),
       false,
       [],
@@ -48,7 +49,6 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.friesOrder);
     if(typeof(Storage) != 'undefined'){
     }else{
       alert("Pruebe en otro navegador");
@@ -56,7 +56,6 @@ export class OrderComponent implements OnInit {
   }
 
   addOnePortion(){
-    //console.log("hiolka");
     if(this.extraPortionOrder.name!=null){
       this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
@@ -75,11 +74,20 @@ export class OrderComponent implements OnInit {
   }
 
   onSubmit(form){
-    //this._friesOrderService.addFriesOrder(this.friesOrder);
+    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+    this.friesOrder.fiD = this.i;
     localStorage.setItem(this.i.toString(), JSON.stringify(this.friesOrder));
     this.i++;
     console.log(this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions));
     form.reset();
+    
+    // Reset extraPortionOrdersQuantity
+    for(let item of this.extraPortionOrdersQuantity){
+      item.quantity = 0;
+    }
+    this.friesOrder.fExtraPortions = [];
+
+
     this.friesOrder.fDressingsOrder.cebollaAsada = false;
     this.friesOrder.fDressingsOrder.chimichurri = false;
     this.friesOrder.fDressingsOrder.cilantro = false;
