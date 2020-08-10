@@ -13,10 +13,10 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="portion">Escoge tu porción*:</label>
             <div class="col-sm-3 pt-3">
-                <select class="custom-select" name="portion" #portin="ngModel" [(ngModel)]="friesOrder.fPortion" required>
+                <select class="custom-select" name="portion" #portion="ngModel" [(ngModel)]="friesOrder.fPortion" required>
                     <option *ngFor="let portionItem of portions" [ngValue]="portionItem" >${{portionItem.price}}    /   {{portionItem.name}}</option>
                 </select>
-                <span class="text-danger" *ngIf="!(friesOrder.fPortion.price>0) && portin.touched">Selecciona al menos una opción</span>
+                <span class="text-danger" *ngIf="!(friesOrder.fPortion.price>0) && portion.touched">Selecciona al menos una opción</span>
             </div>
         </div>
 
@@ -35,9 +35,10 @@
         <div class="form-group row" *ngIf="friesOrder.fExtraPortion">
             <label class="col-sm-2 col-form-label" for="extraPortion" >Agrega las porciones extra que quieras:</label>
             <div class="col-sm-3 pt-3">
-                <select class="custom-select" name="extraPortion" [(ngModel)]="extraPortionOrder">
+                <select class="custom-select" name="extraPortion" #extraPOrtion="ngModel" [(ngModel)]="extraPortionOrder">
                     <option *ngFor="let extraPortionItem of extraPortions" [ngValue]="extraPortionItem" >${{extraPortionItem.price}}    /  {{extraPortionItem.name}}</option>
                 </select>
+                <span class="text-danger" *ngIf="!(extraPortionOrder.price>0) && extraPOrtion.touched">Selecciona al menos una opción</span>
             </div>
             <div class="col-sm-2 extraPortionButton d-flex justify-content-around" *ngIf="extraPortionOrder">
                 <div (click)="addOnePortion()" class="plus"></div>

@@ -44,6 +44,7 @@ export class OrderComponent implements OnInit {
       ),
       0
     );
+    this.extraPortionOrder = new ExtraPortion(0,'');
     this.i = 0;
     this.extraPortionOrdersQuantity = [];
   }
