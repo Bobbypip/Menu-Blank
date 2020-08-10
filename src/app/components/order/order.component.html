@@ -42,8 +42,10 @@
                 <div (click)="addOnePortion()" class="plus"></div>
                 <div (click)="deleteOnePortion()" class="minus"></div>
             </div>
-            <div class="col-sm-2">
-                {{friesOrder.fExtraPortions.length}}
+            <div class="col-sm-2 d-flex justify-content-start pt-3">
+                <ul class="list pl-0">
+                    <li *ngFor="let extraPortionQ of extraPortionOrdersQuantity">{{extraPortionQ.quantity}} X {{extraPortionQ.extraPortionName}}</li>
+                </ul>
             </div>
         </div>
 

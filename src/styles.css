@@ -26,3 +26,7 @@
 .minus:hover{
     background: url(./app/assets/icons/menos2.png) no-repeat;
 }
+
+.list li{
+    list-style-type: none;
+}
