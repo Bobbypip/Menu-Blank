@@ -16,7 +16,7 @@
                 <select class="custom-select" name="portion" #portion="ngModel" [(ngModel)]="friesOrder.fPortion" required>
                     <option *ngFor="let portionItem of portions" [ngValue]="portionItem" >${{portionItem.price}}    /   {{portionItem.name}}</option>
                 </select>
-                <span class="text-danger" *ngIf="!(friesOrder.fPortion.price>0) && portion.touched">Selecciona al menos una opción</span>
+                <span class="text-danger" *ngIf="!(friesOrder.fPortion.price > 0) && portion.touched">Selecciona al menos una opción</span>
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                 <select class="custom-select" name="extraPortion" #extraPOrtion="ngModel" [(ngModel)]="extraPortionOrder">
                     <option *ngFor="let extraPortionItem of extraPortions" [ngValue]="extraPortionItem" >${{extraPortionItem.price}}    /  {{extraPortionItem.name}}</option>
                 </select>
-                <span class="text-danger" *ngIf="!(extraPortionOrder.price>0) && extraPOrtion.touched">Selecciona al menos una opción</span>
+                <span class="text-danger" *ngIf="!(extraPortionOrder.price > 0) && extraPOrtion.touched">Selecciona al menos una opción</span>
             </div>
             <div class="col-sm-2 extraPortionButton d-flex justify-content-around" *ngIf="extraPortionOrder">
                 <div (click)="addOnePortion()" class="plus"></div>
@@ -147,7 +147,7 @@
 
         <div class="form-group row">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary" [disabled]="!(friesOrder.fPortion.price>0)">Agregar orden</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!(friesOrder.fPortion.price && friesOrder.fPortion.price>0)">Agregar orden</button>
           </div>
         </div>
 

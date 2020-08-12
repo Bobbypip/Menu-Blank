@@ -60,7 +60,7 @@ export class OrderComponent implements OnInit {
     if(this.extraPortionOrder.name!=null){
       this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
-      console.log(this.extraPortionOrdersQuantity);
+      //console.log(this.extraPortionOrdersQuantity);
     }
   }
 
@@ -71,7 +71,7 @@ export class OrderComponent implements OnInit {
       this.friesOrder.fExtraPortions.splice(pos, 1);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
     }
-    console.log(this.extraPortionOrdersQuantity);
+    //console.log(this.extraPortionOrdersQuantity);
   }
 
   onSubmit(form){
@@ -79,15 +79,18 @@ export class OrderComponent implements OnInit {
     this.friesOrder.fiD = this.i;
     localStorage.setItem(this.i.toString(), JSON.stringify(this.friesOrder));
     this.i++;
-    console.log(this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions));
+    //console.log(this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions));
+
+    console.log(this.friesOrder.fPortion.price);
     form.reset();
-    
+
     // Reset extraPortionOrdersQuantity
     for(let item of this.extraPortionOrdersQuantity){
       item.quantity = 0;
     }
-    this.friesOrder.fExtraPortions = [];
 
+    /*
+    this.friesOrder.fExtraPortions = [];
 
     this.friesOrder.fDressingsOrder.cebollaAsada = false;
     this.friesOrder.fDressingsOrder.chimichurri = false;
@@ -100,6 +103,32 @@ export class OrderComponent implements OnInit {
     this.friesOrder.fDressingsOrder.salsaBuffalo = false;
     this.friesOrder.fDressingsOrder.salsaVerde = false;
     this.friesOrder.fDressingsOrder.tamarindoPicante = false;
+    */
+
+    this.friesOrder = new FriesOrder(
+      0,
+      new Portion(0,''),
+      false,
+      [],
+      new DressingsOrder(
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ),
+      0
+    );
+    this.extraPortionOrder = new ExtraPortion(0,'');
+    this.extraPortionOrdersQuantity = [];
+
+    console.log(this.friesOrder);
   }
 }
 
