@@ -113,6 +113,7 @@ export class OrderComponent implements OnInit {
     this.extraPortionOrdersQuantity = [];
 
     console.log(this.friesOrder);
+    console.log("ddd");
   }
 }
 
