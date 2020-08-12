@@ -29,6 +29,7 @@
 
 .list li{
     list-style-type: none;
+<<<<<<< HEAD
 }
 
 .footer{
@@ -46,4 +47,6 @@
 
 .set{
     margin-bottom: 72px;
+=======
+>>>>>>> master
 }
