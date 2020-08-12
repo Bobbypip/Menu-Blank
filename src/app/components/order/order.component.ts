@@ -89,22 +89,6 @@ export class OrderComponent implements OnInit {
       item.quantity = 0;
     }
 
-    /*
-    this.friesOrder.fExtraPortions = [];
-
-    this.friesOrder.fDressingsOrder.cebollaAsada = false;
-    this.friesOrder.fDressingsOrder.chimichurri = false;
-    this.friesOrder.fDressingsOrder.cilantro = false;
-    this.friesOrder.fDressingsOrder.ketchup = false;
-    this.friesOrder.fDressingsOrder.pinaHabanero = false;
-    this.friesOrder.fDressingsOrder.quesoAmarillo = false;
-    this.friesOrder.fDressingsOrder.ranch = false;
-    this.friesOrder.fDressingsOrder.salsaBBQ = false;
-    this.friesOrder.fDressingsOrder.salsaBuffalo = false;
-    this.friesOrder.fDressingsOrder.salsaVerde = false;
-    this.friesOrder.fDressingsOrder.tamarindoPicante = false;
-    */
-
     this.friesOrder = new FriesOrder(
       0,
       new Portion(0,''),
