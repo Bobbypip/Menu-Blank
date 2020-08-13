@@ -42,9 +42,13 @@ export class FriesOrderService {
   getPriceOfFriesOrder(friesOrder: FriesOrder): number{
     let price: number = 0;
     price += friesOrder.fPortion.price;
-    for(let priceOfExtraOrder of friesOrder.fExtraPortions){
-      price += priceOfExtraOrder.price;
+
+    if(friesOrder.fExtraPortion){
+      for(let priceOfExtraOrder of friesOrder.fExtraPortions){
+        price += priceOfExtraOrder.price;
+      }
     }
+
     return price;
   }
 

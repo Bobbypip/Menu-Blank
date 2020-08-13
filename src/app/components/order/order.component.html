@@ -13,7 +13,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="portion">Escoge tu porción*:</label>
             <div class="col-sm-3 pt-3">
-                <select class="custom-select" name="portion" #portion="ngModel" [(ngModel)]="friesOrder.fPortion" required>
+                <select class="custom-select" name="portion" #portion="ngModel" [(ngModel)]="friesOrder.fPortion" (change)="onChangePortion()" required>
                     <option *ngFor="let portionItem of portions" [ngValue]="portionItem" >${{portionItem.price}}    /   {{portionItem.name}}</option>
                 </select>
                 <span class="text-danger" *ngIf="!(friesOrder.fPortion.price > 0) && portion.touched">Selecciona al menos una opción</span>
@@ -24,7 +24,7 @@
             <div class="col-sm-2 pt-2">Quieres una porción extra?</div>
             <div class="col-sm-10 pt-2">
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="boolExtraPortion" [(ngModel)]="friesOrder.fExtraPortion">
+                <input class="form-check-input" type="checkbox" name="boolExtraPortion" [(ngModel)]="friesOrder.fExtraPortion" (change)="onChangeBooleanExtraPortion()">
                 <label class="form-check-label" for="boolExtraPortion">
                     Si quiero
                 </label>
@@ -154,7 +154,7 @@
     </form>
 
     <div class="footer">
-        Hola ff
+        $ {{friesOrder.fPrice}}
     </div>
         
 
