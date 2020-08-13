@@ -19,6 +19,7 @@ export class OrderComponent implements OnInit {
   public extraPortions = this._friesOrderService.getExtraPortions();
   public id: number;
   public extraPortionOrdersQuantity: ExtraPortionOrderQuantity[];
+  public totalPrice: number;
 
   constructor(
     private _friesOrderService: FriesOrderService
@@ -47,6 +48,7 @@ export class OrderComponent implements OnInit {
     this.extraPortionOrder = new ExtraPortion(0,'');
     this.id = 0;
     this.extraPortionOrdersQuantity = [];
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice();
   }
 
   ngOnInit(): void {
@@ -57,11 +59,19 @@ export class OrderComponent implements OnInit {
   }
 
   onChangePortion(){
+    // Update the order price
     this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+
+    // Update total price
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   onChangeBooleanExtraPortion(){
+    // Update the order price
     this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+
+    // Update total price
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   addOnePortion(){
@@ -72,6 +82,9 @@ export class OrderComponent implements OnInit {
     
     // Update the order price
     this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+
+    // Update total price
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   deleteOnePortion(){
@@ -84,6 +97,9 @@ export class OrderComponent implements OnInit {
 
     // Update the order price
     this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+
+    // Update total price
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   onSubmit(form){

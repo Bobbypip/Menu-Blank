@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Portion } from '../models/portion';
 import { ExtraPortion } from '../models/extraPortion';
 import { FriesOrder } from '../models/friesOrder';
+import { DressingsOrder } from '../models/dessingsOrder';
 import { ExtraPortionOrderQuantity } from '../models/extraPortionOrderQuantity';
+import { timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +52,48 @@ export class FriesOrderService {
     }
 
     return price;
+  }
+
+  getLocalStorageData(): FriesOrder[]{
+    let order: FriesOrder = new FriesOrder(
+      0,
+      new Portion(0,''),
+      false,
+      [],
+      new DressingsOrder(
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ),
+      0
+    );
+    let orderArray: FriesOrder[] = [];
+    let lenght = localStorage.length;
+
+    for(let i = 0; i < lenght; i++){
+      orderArray.push( JSON.parse(localStorage.getItem(i.toString())) );
+    }
+
+    return orderArray;
+  }
+
+  getCompleteOrderPrice(): number{
+    let orderArray: FriesOrder[] = this.getLocalStorageData();
+    let totalPrice:number = 0;
+
+    for(let i in orderArray){
+      totalPrice += orderArray[i].fPrice;
+    }
+
+    return totalPrice;
   }
 
 }
