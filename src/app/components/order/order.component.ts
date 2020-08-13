@@ -17,7 +17,7 @@ export class OrderComponent implements OnInit {
   public extraPortionOrder: ExtraPortion;
   public portions = this._friesOrderService.getPortions();
   public extraPortions = this._friesOrderService.getExtraPortions();
-  public i: number;
+  public id: number;
   public extraPortionOrdersQuantity: ExtraPortionOrderQuantity[];
 
   constructor(
@@ -45,7 +45,7 @@ export class OrderComponent implements OnInit {
       0
     );
     this.extraPortionOrder = new ExtraPortion(0,'');
-    this.i = 0;
+    this.id = 0;
     this.extraPortionOrdersQuantity = [];
   }
 
@@ -56,12 +56,22 @@ export class OrderComponent implements OnInit {
     }
   }
 
+  onChangePortion(){
+    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+  }
+
+  onChangeBooleanExtraPortion(){
+    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+  }
+
   addOnePortion(){
     if(this.extraPortionOrder.name!=null){
       this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
-      //console.log(this.extraPortionOrdersQuantity);
     }
+    
+    // Update the order price
+    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
   }
 
   deleteOnePortion(){
@@ -71,17 +81,22 @@ export class OrderComponent implements OnInit {
       this.friesOrder.fExtraPortions.splice(pos, 1);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
     }
-    //console.log(this.extraPortionOrdersQuantity);
+
+    // Update the order price
+    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
   }
 
   onSubmit(form){
+    // Update the order price
     this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
-    this.friesOrder.fiD = this.i;
-    localStorage.setItem(this.i.toString(), JSON.stringify(this.friesOrder));
-    this.i++;
-    //console.log(this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions));
 
-    console.log(this.friesOrder.fPortion.price);
+    // Add the Id to the order
+    this.friesOrder.fiD = this.id;
+
+    // Save the order into the Local Storage
+    localStorage.setItem(this.id.toString(), JSON.stringify(this.friesOrder));
+    this.id++;
+
     form.reset();
 
     // Reset extraPortionOrdersQuantity
@@ -111,9 +126,6 @@ export class OrderComponent implements OnInit {
     );
     this.extraPortionOrder = new ExtraPortion(0,'');
     this.extraPortionOrdersQuantity = [];
-
-    console.log(this.friesOrder);
-    console.log("ddd");
   }
 }
 
