@@ -1,8 +1,11 @@
 <div class="container">
     <h3 class="my-3">Pedido:</h3>
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush set">
         <li class="list-group-item" *ngFor="let item of objects2Print">
-            <h4>Orden {{item.fiD+1}}</h4>
+            <div class="deleteButton">
+                <h4>Orden {{item.fiD+1}}</h4>
+                <div (click)="deleteOrder(item.fiD)" class="delete"></div>
+            </div>
             <h5>Porción: {{item.fPortion.name}}</h5>
             
             <div *ngIf="item.fExtraPortion">
@@ -31,4 +34,10 @@
             </ul>
         </li>
     </ul>
+</div>
+
+
+<div class="footer">
+    <div><a [routerLink]="['/']" class="text-decoration-none text-light" >Agregar otra order</a></div>
+    <div>Hola</div>
 </div>

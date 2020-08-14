@@ -27,6 +27,16 @@
     background: url(./app/assets/icons/menos2.png) no-repeat;
 }
 
+.delete{
+    width: 32px;
+    height: 32px;
+    background: url(./app/assets/icons/delete1.png) no-repeat;
+}
+
+.delete:hover{
+    background: url(./app/assets/icons/delete2.png) no-repeat;
+}
+
 .list li{
     list-style-type: none;
 }
@@ -51,4 +61,10 @@
 
 .set{
     margin-bottom: 72px;
+}
+
+.deleteButton{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

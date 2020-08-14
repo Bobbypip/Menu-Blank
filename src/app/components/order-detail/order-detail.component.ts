@@ -22,4 +22,8 @@ export class OrderDetailComponent implements OnInit {
     console.log(this.objects2Print);
   }
 
+  deleteOrder(id){
+    console.log(id);
+    localStorage.removeItem(id.toString());
+  }
 }
