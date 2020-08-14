@@ -154,9 +154,8 @@
     </form>
 
     <div class="footer">
-        <div>Esta orden: $ {{friesOrder.fPrice}}</div>                                      
-        <div>Total: $ {{totalPrice}}</div>
+        <div>Esta orden: $ {{friesOrder.fPrice}}</div>
+        <div><a [routerLink]="['/detail']" class="text-decoration-none text-light" >Ver Pedido / Total: $ {{totalPrice}}</a></div>
     </div>
         
-
 </div>

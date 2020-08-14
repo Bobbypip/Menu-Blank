@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Components
 import { OrderComponent } from './components/order/order.component';
-import { from } from 'rxjs';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 
 
 const routes: Routes = [
-  {path:'', component: OrderComponent}
+  {path: '', component: OrderComponent},
+  {path: 'detail', component: OrderDetailComponent},
+  {path: '**', component: OrderComponent}
 ];
 
 @NgModule({

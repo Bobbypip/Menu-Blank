@@ -4,7 +4,6 @@ import { ExtraPortion } from '../models/extraPortion';
 import { FriesOrder } from '../models/friesOrder';
 import { DressingsOrder } from '../models/dessingsOrder';
 import { ExtraPortionOrderQuantity } from '../models/extraPortionOrderQuantity';
-import { timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +38,21 @@ export class FriesOrderService {
       arrResult.push(new ExtraPortionOrderQuantity(quantity,extraPortion.name));
     }
     return arrResult;
+  }
+
+  getArrayOfQuantityOfEachExtraPortion(): any[]{
+    let ordersArray = this.getLocalStorageData();
+    let eachExtraPortionOrderQuantity = [];
+
+    for(let item in ordersArray){
+      let friesOrderObject = ordersArray[item];
+      let eachQuantityOfEachExtraPortion = this.quantityOfEachExtraPortion(friesOrderObject.fExtraPortions);
+      let arrayAsObjectOfEachquantityOfEachExtraPortion = Object.assign({}, eachQuantityOfEachExtraPortion);
+
+      eachExtraPortionOrderQuantity.push(arrayAsObjectOfEachquantityOfEachExtraPortion);
+    }
+
+    return eachExtraPortionOrderQuantity;
   }
 
   getPriceOfFriesOrder(friesOrder: FriesOrder): number{
@@ -94,6 +108,22 @@ export class FriesOrderService {
     }
 
     return totalPrice;
+  }
+
+  getObjects2Print(): any[]{
+    let getLocalStorageData = this.getLocalStorageData();
+    let getArrayOfQuantityOfEachExtraPortion = this.getArrayOfQuantityOfEachExtraPortion();
+    let arrayOfOrderObjects = [];
+
+    let lenght =  getLocalStorageData.length;
+
+    for (let i = 0; i < lenght; i++ ){
+      let object = Object.assign(getLocalStorageData[i], getArrayOfQuantityOfEachExtraPortion[i]);
+
+      arrayOfOrderObjects.push(object);
+    }
+
+    return arrayOfOrderObjects;
   }
 
 }
