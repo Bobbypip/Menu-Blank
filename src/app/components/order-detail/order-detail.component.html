@@ -1,7 +1,34 @@
 <div class="container">
     <h3 class="my-3">Pedido:</h3>
-
-    <div *ngFor="let item of print">
-        
-    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let item of objects2Print">
+            <h4>Orden {{item.fiD+1}}</h4>
+            <h5>Porción: {{item.fPortion.name}}</h5>
+            
+            <div *ngIf="item.fExtraPortion">
+                <h5>Porciones Extras:</h5>
+                <ul style="list-style: none;">
+                    <li *ngIf="item[0].quantity>0">{{item[0].quantity}}X {{item[0].extraPortionName}}</li>
+                    <li *ngIf="item[1].quantity>0">{{item[1].quantity}}X {{item[1].extraPortionName}}</li>
+                    <li *ngIf="item[2].quantity>0">{{item[2].quantity}}X {{item[2].extraPortionName}}</li>
+                    <li *ngIf="item[3].quantity>0">{{item[3].quantity}}X {{item[3].extraPortionName}}</li>
+                </ul>
+            </div>
+            
+            <h5>Aderezos: </h5>
+            <ul style="list-style: none;">
+                <li *ngIf="item.fDressingsOrder.cebollaAsada">Cebolla Asada</li>
+                <li *ngIf="item.fDressingsOrder.chimichurri">Chimichurri</li>
+                <li *ngIf="item.fDressingsOrder.cilantro">Cilantro</li>
+                <li *ngIf="item.fDressingsOrder.ketchup">Ketchup</li>
+                <li *ngIf="item.fDressingsOrder.pinaHabanero">Piña Habanero</li>
+                <li *ngIf="item.fDressingsOrder.quesoAmarillo">Queso Amarillo</li>
+                <li *ngIf="item.fDressingsOrder.ranch">Ranch</li>
+                <li *ngIf="item.fDressingsOrder.salsaBBQ">Salsa BBQ</li>
+                <li *ngIf="item.fDressingsOrder.salsaBuffalo">Salsa Buffalo</li>
+                <li *ngIf="item.fDressingsOrder.salsaVerde">Salsa Verde</li>
+                <li *ngIf="item.fDressingsOrder.tamarindoPicante">Ramarindo Picante</li>
+            </ul>
+        </li>
+    </ul>
 </div>

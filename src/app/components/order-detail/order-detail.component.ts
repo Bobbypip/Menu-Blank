@@ -10,18 +10,16 @@ import { FriesOrderService } from '../../services/fries-order.service';
   providers: [FriesOrderService]
 })
 export class OrderDetailComponent implements OnInit {
-  private ordersArray: FriesOrder[];
-  private eachExtraPortionOrderQuantity: Object[];
+  public objects2Print = [];
 
   constructor(
     private _friesOrderService: FriesOrderService
-  ) { 
-    this.ordersArray = [];
-    this.eachExtraPortionOrderQuantity = [];
+  ) {
+    this.objects2Print = this._friesOrderService.getObjects2Print();
   }
 
   ngOnInit(): void {
-    console.log(this._friesOrderService.getObjects2Print());
+    console.log(this.objects2Print);
   }
 
 }
