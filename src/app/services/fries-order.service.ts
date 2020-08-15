@@ -93,7 +93,11 @@ export class FriesOrderService {
     let lenght = localStorage.length;
 
     for(let i = 0; i < lenght; i++){
-      orderArray.push( JSON.parse(localStorage.getItem(i.toString())) );
+      let key = localStorage.key(i);
+
+      if(key != "primaryKey"){
+        orderArray.push( JSON.parse(localStorage.getItem(localStorage.key(i))) );
+      }
     }
 
     return orderArray;
@@ -124,6 +128,24 @@ export class FriesOrderService {
     }
 
     return arrayOfOrderObjects;
+  }
+
+  setId(): number{
+    let actual;
+
+    if(localStorage.getItem("primaryKey") === null){
+      localStorage.setItem("primaryKey","1");
+
+      return 1;
+    }
+
+    actual = localStorage.getItem("primaryKey");
+    actual = parseInt(actual);
+    actual++;
+    
+    localStorage.setItem("primaryKey", actual.toString());
+
+    return actual;
   }
 
 }

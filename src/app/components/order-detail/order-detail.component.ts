@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FriesOrder } from '../../models/friesOrder';
-import { ExtraPortionOrderQuantity } from '../../models/extraPortionOrderQuantity';
 import { FriesOrderService } from '../../services/fries-order.service';
 
 @Component({

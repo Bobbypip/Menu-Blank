@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { FriesOrder } from '../../models/friesOrder';
 import { Portion } from '../../models/portion';
 import { ExtraPortion } from '../../models/extraPortion';
@@ -12,7 +12,7 @@ import { ExtraPortionOrderQuantity } from '../../models/extraPortionOrderQuantit
   styleUrls: ['./order.component.css'],
   providers: [FriesOrderService]
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent implements OnInit, DoCheck {
   public friesOrder: FriesOrder;
   public extraPortionOrder: ExtraPortion;
   public portions = this._friesOrderService.getPortions();
@@ -49,6 +49,10 @@ export class OrderComponent implements OnInit {
     this.id = 0;
     this.extraPortionOrdersQuantity = [];
     this.totalPrice = this._friesOrderService.getCompleteOrderPrice();
+  }
+
+  ngDoCheck(): void {
+    
   }
 
   ngOnInit(): void {
@@ -107,10 +111,10 @@ export class OrderComponent implements OnInit {
     this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
 
     // Add the Id to the order
-    this.friesOrder.fiD = this.id;
+    this.friesOrder.fiD = this._friesOrderService.setId();
 
     // Save the order into the Local Storage
-    localStorage.setItem(this.id.toString(), JSON.stringify(this.friesOrder));
+    localStorage.setItem(this.friesOrder.fiD.toString(), JSON.stringify(this.friesOrder));
     this.id++;
 
     form.reset();
