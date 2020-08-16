@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { FriesOrderService } from '../../services/fries-order.service';
 
 @Component({
@@ -7,12 +7,15 @@ import { FriesOrderService } from '../../services/fries-order.service';
   styleUrls: ['./order-detail.component.css'],
   providers: [FriesOrderService]
 })
-export class OrderDetailComponent implements OnInit {
+export class OrderDetailComponent implements OnInit, DoCheck {
   public objects2Print = [];
 
   constructor(
     private _friesOrderService: FriesOrderService
   ) {
+    this.objects2Print = this._friesOrderService.getObjects2Print();
+  }
+  ngDoCheck(): void {
     this.objects2Print = this._friesOrderService.getObjects2Print();
   }
 

@@ -52,7 +52,11 @@ export class OrderComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    
+    // Update the order price
+    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
+
+    // Update total price
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   ngOnInit(): void {
@@ -62,33 +66,11 @@ export class OrderComponent implements OnInit, DoCheck {
     }
   }
 
-  onChangePortion(){
-    // Update the order price
-    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
-
-    // Update total price
-    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
-  }
-
-  onChangeBooleanExtraPortion(){
-    // Update the order price
-    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
-
-    // Update total price
-    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
-  }
-
   addOnePortion(){
     if(this.extraPortionOrder.name!=null){
       this.friesOrder.fExtraPortions.push(this.extraPortionOrder);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
     }
-    
-    // Update the order price
-    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
-
-    // Update total price
-    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   deleteOnePortion(){
@@ -98,12 +80,6 @@ export class OrderComponent implements OnInit, DoCheck {
       this.friesOrder.fExtraPortions.splice(pos, 1);
       this.extraPortionOrdersQuantity = this._friesOrderService.quantityOfEachExtraPortion(this.friesOrder.fExtraPortions);
     }
-
-    // Update the order price
-    this.friesOrder.fPrice = this._friesOrderService.getPriceOfFriesOrder(this.friesOrder);
-
-    // Update total price
-    this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
   }
 
   onSubmit(form){
