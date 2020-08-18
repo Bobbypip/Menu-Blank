@@ -52,11 +52,13 @@
     justify-content: space-between;
     align-items: center;
     height: 56px;
+    z-index: 2;
 }
 
 .footer div{
     margin-left: 20px;
     margin-right: 20px;
+    z-index: 2px;
 }
 
 .set{
@@ -73,4 +75,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+}
+
+#map{
+    width: auto;
+    height: 500px;
+    border-style: groove;
+    z-index:1;
 }
