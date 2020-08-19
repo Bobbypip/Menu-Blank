@@ -1,7 +1,7 @@
 import { Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
 import { FriesOrderService } from '../../services/fries-order.service';
 import { LocationService } from '../../services/location.service';
-import { Coords } from '../../models/coords';
+import { Location } from '../../models/location';
 import * as L from 'leaflet';
 
 @Component({
@@ -13,14 +13,13 @@ import * as L from 'leaflet';
 export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public objects2Print = [];
   public marker;
-  public coords: Coords;
+  public location: Location;
 
   constructor(
     private _friesOrderService: FriesOrderService,
     private _locationService: LocationService
   ) {
     this.objects2Print = this._friesOrderService.getObjects2Print();
-    this.coords = new Coords(0,0,false);
   }
 
   ngOnInit(): void {
@@ -35,56 +34,17 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   mouseUp(){
-    let coords = this.marker.getLatLng();
-    this.coords.latitude = coords.lat;
-    this.coords.longitude = coords.lng;
-    console.log(this.coords);
-  }
-
-  private initLocation(){
-    if (navigator.geolocation) {
-
-      navigator.geolocation.getCurrentPosition(showUbication,errorUbication);
-
-      function showUbication (ubication) {
-        const lng = ubication.coords.longitude;
-        const lat = ubication.coords.latitude;
-
-        this.map = L.map('map').setView([lng, lat], 16);
-
-        var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
-
-        var marker =  L.marker([51.5, -0.09], {draggable:'true'});
-        marker.on('dragend', function(event){
-          var marker = event.target;
-          var position = marker.getLatLng();
-          this.corrds = marker.getLatLng();
-          console.log(this.corrds);
-          marker.setLatLng(position,{draggable:'true'}).bindPopup(position).update();
-        });
-
-        var circle = L.circle([51.508, -0.11], {
-          color: 'red',
-          fillColor: '#f03',
-          fillOpacity: 0.5,
-          radius: 500
-        });
-
-        tiles.addTo(this.map);
-        marker.addTo(this.map);
-
+    let location = this.marker.getLatLng();
+    this.location.latitude = location.lat;
+    this.location.longitude = location.lng;
+    this._locationService.getAddress(location.lat.toString(),location.lng.toString()).subscribe(
+      result => {
+       this.location.address = result.items[0].title;
+      },
+      error => {
+        console.log(<any>error);
       }
-      function errorUbication (e){
-        if(e.code == 1){
-          alert("Por favor da permiso a tu ubicación, de lo contrario deberás introducir tu dirección manualmente.");
-        }else{
-          alert("No podemos acceder a tu ubicación, por favror introduce tu dirección en el formulario.");
-        }
-      }
-    }
+    )
   }
 
   initMap(): void {
@@ -103,10 +63,15 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     map.once('locationfound',
               e => {
                       this.marker = new L.marker([e.latlng.lat, e.latlng.lng],{draggable:'true'}).addTo(map);
-                      this.coords.latitude = e.latlng.lat;
-                      this.coords.longitude = e.latlng.lng;
-                      this.coords.found = true;
-                      console.log(this.coords);
+                      this.location = new Location(e.latlng.lat,e.latlng.lng,true,'');
+                      this._locationService.getAddress(e.latlng.lat.toString(),e.latlng.lng.toString()).subscribe(
+                        result => {
+                         this.location.address = result.items[0].title;
+                        },
+                        error => {
+                          console.log(<any>error);
+                        }
+                      )
                     }
             );
 

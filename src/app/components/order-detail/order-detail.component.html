@@ -63,6 +63,9 @@
     <div class="row set">
         <div class="col-12">
             <h3 class="my-3 text-center">Agregar dirección</h3>
+            <div class="mt-4" *ngIf="location">
+                {{location.address}}
+            </div>
             <div id="map"
                 (mouseup)="mouseUp()"
                 >

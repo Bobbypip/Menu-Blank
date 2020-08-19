@@ -1,25 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Coords } from '../models/coords';
+import { HttpClient } from '@angular/common/http'; 
+import { Observable } from 'rxjs';
+import { Location } from '../models/location';
+import { global } from './global';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
+  private url: string;
+  private apiKey: string;
 
-  constructor() { }
+  constructor(
+    public _http: HttpClient
+  ) { 
+    this.url = global.url;
+    this.apiKey = global.APIKey;
+  }
 
-  getLocation(): Coords{
+  getLocation(): Location{
 
-    var coords = new Coords(0, 0, false);
+    var coords = new Location(0, 0, false, '');
     if (navigator.geolocation) {
 
       navigator.geolocation.getCurrentPosition(showUbication,errorUbication);
 
       function showUbication (ubication) {
-        const lng = ubication.coords.longitude;
         const lat = ubication.coords.latitude;
-        coords.longitude = lng;
+        const lng = ubication.coords.longitude;
         coords.latitude = lat;
+        coords.longitude = lng;
         coords.found = true;
       }
       function errorUbication (e){
@@ -32,5 +42,9 @@ export class LocationService {
     }
 
     return coords;
+  }
+
+  getAddress(lat: string, lon: string): Observable<any>{
+    return this._http.get(this.url+'v1/revgeocode?at='+ lat + '%2C' + lon + '&lang=en-US&apiKey=' + this.apiKey);
   }
 }
