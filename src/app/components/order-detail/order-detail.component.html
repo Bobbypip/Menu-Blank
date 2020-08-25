@@ -63,12 +63,42 @@
     <div class="row set">
         <div class="col-12">
             <h3 class="my-3 text-center">Agregar dirección</h3>
+            <h6 class="my-2 text-center">Solo envíos dentro de Celaya, Gto, México</h6>
+            <div class="custom-control custom-switch mt-4">
+                <input type="checkbox" class="custom-control-input" [(ngModel)]="manualAddress" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">Escribir mi dirección de envío manualmente</label>
+            </div>
+            <form class="mt-3" #formManualAddress="ngForm" *ngIf="manualAddress">
+                <div class="form-row">
+                    <div class="col-lg-10">
+                        <label for="street">Calle</label>
+                        <input type="text" class="form-control" name="street" #streetVal="ngModel" [(ngModel)]="street" required>
+                        <span class="text-danger" *ngIf="streetVal.touched && !streetVal.valid">La calle es obligatoria</span>
+                    </div>
+                </div>
+                <div class="form-row mt-0">
+                    <div class="col-lg-6">
+                        <label for="neighborhood">Colonia</label>
+                        <input type="text" class="form-control" name="neighborhood" #neighborhoodVal="ngModel" [(ngModel)]="neighborhood" required>
+                        <span class="text-danger" *ngIf="neighborhoodVal.touched && !neighborhoodVal.valid">La colonia es obligatoria</span>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="extNumber">Número Ext.</label>
+                        <input type="number" class="form-control" name="extNumber" [(ngModel)]="extNumber" required>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="intNumber">Número Int. (Op.)</label>
+                        <input type="number" class="form-control" name="intNumber" [(ngModel)]="intNumber">
+                    </div>
+                </div>
+                <input type="submit" value="Usar esta dirección"class="btn btn-primary mt-3" [disabled]="!formManualAddress.form.valid"/>
+            </form>
             <div class="mt-4" *ngIf="location">
                 {{location.address}}
             </div>
             <div id="map"
                 (mouseup)="mouseUp()"
-                >
+            >
             </div>
         </div>
     </div>

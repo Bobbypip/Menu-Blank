@@ -14,12 +14,22 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public objects2Print = [];
   public marker;
   public location: Location;
+  public manualAddress: boolean;
+  public street: string;
+  public neighborhood: string;
+  public extNumber: number;
+  public intNumber: number;
 
   constructor(
     private _friesOrderService: FriesOrderService,
     private _locationService: LocationService
   ) {
     this.objects2Print = this._friesOrderService.getObjects2Print();
+    this.manualAddress = false;
+    this.street = '';
+    this.neighborhood = '';
+    this.extNumber = 0;
+    this.intNumber = 0;
   }
 
   ngOnInit(): void {
@@ -39,7 +49,8 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     this.location.longitude = location.lng;
     this._locationService.getAddress(location.lat.toString(),location.lng.toString()).subscribe(
       result => {
-       this.location.address = result.items[0].title;
+       this.location.address = result.items[0].address.label;
+       console.log(result);
       },
       error => {
         console.log(<any>error);
@@ -63,7 +74,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     map.once('locationfound',
               e => {
                       this.marker = new L.marker([e.latlng.lat, e.latlng.lng],{draggable:'true'}).addTo(map);
-                      this.location = new Location(e.latlng.lat,e.latlng.lng,true,'');
+                      this.location = new Location(e.latlng.lat,e.latlng.lng,true,'','');
                       this._locationService.getAddress(e.latlng.lat.toString(),e.latlng.lng.toString()).subscribe(
                         result => {
                          this.location.address = result.items[0].title;

@@ -3,7 +3,8 @@ export class Location{
         public latitude: number,
         public longitude: number,
         public found: boolean,
-        public address: string
+        public address: string,
+        public manualAddress: string
     )
     {}
 }

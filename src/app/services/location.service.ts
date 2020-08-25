@@ -20,7 +20,7 @@ export class LocationService {
 
   getLocation(): Location{
 
-    var coords = new Location(0, 0, false, '');
+    var coords = new Location(0, 0, false, '','');
     if (navigator.geolocation) {
 
       navigator.geolocation.getCurrentPosition(showUbication,errorUbication);
