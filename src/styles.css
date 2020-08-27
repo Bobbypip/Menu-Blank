@@ -82,4 +82,10 @@
     height: 500px;
     border-style: groove;
     z-index:1;
+    /*visibility: hidden;*/
+}
+
+.notice{
+    font-size: 10px;
+    font-weight: bold;
 }

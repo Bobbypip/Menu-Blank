@@ -14,6 +14,8 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public objects2Print = [];
   public marker;
   public location: Location;
+
+  // Manual address data
   public manualAddress: boolean;
   public street: string;
   public neighborhood: string;
@@ -45,17 +47,22 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
   mouseUp(){
     let location = this.marker.getLatLng();
-    this.location.latitude = location.lat;
-    this.location.longitude = location.lng;
-    this._locationService.getAddress(location.lat.toString(),location.lng.toString()).subscribe(
-      result => {
-       this.location.address = result.items[0].address.label;
-       console.log(result);
-      },
-      error => {
-        console.log(<any>error);
-      }
-    )
+    if((this.location.latitude != location.lat) &&
+       (this.location.longitude != location.lng)){
+        
+        this.location.latitude = location.lat;
+        this.location.longitude = location.lng;
+        this._locationService.getAddress(location.lat.toString(),location.lng.toString()).subscribe(
+          result => {
+                     this.location.address = result.items[0].address.label;
+                     //console.log(result);
+         },
+          error => {
+                    console.log(<any>error);
+        }
+       )
+
+       }
   }
 
   initMap(): void {
@@ -75,6 +82,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
               e => {
                       this.marker = new L.marker([e.latlng.lat, e.latlng.lng],{draggable:'true'}).addTo(map);
                       this.location = new Location(e.latlng.lat,e.latlng.lng,true,'','');
+                      if(localStorage.getItem('manualAddress')){this.location.manualAddress = localStorage.getItem('manualAddress')}
                       this._locationService.getAddress(e.latlng.lat.toString(),e.latlng.lng.toString()).subscribe(
                         result => {
                          this.location.address = result.items[0].title;
@@ -132,5 +140,17 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
   deleteOrder(id){
     localStorage.removeItem(id.toString());
+  }
+
+  onSubmitManualAddress(){
+    let setManualAdress = this.street.concat(' ','#',this.extNumber.toString());
+
+    if( this.intNumber > 0){
+      setManualAdress = setManualAdress.concat(', Int. ',this.intNumber.toString());
+    }
+    setManualAdress = setManualAdress.concat(', Col. ',this.neighborhood);
+
+    this.location.manualAddress = setManualAdress;
+    localStorage.setItem('manualAddress', this.location.manualAddress);
   }
 }
