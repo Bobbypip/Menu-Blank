@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { Observable } from 'rxjs';
-import { Location } from '../models/location';
+import { Customer } from '../models/customer';
 import { global } from './global';
 
 @Injectable({
@@ -18,9 +18,9 @@ export class LocationService {
     this.apiKey = global.APIKey;
   }
 
-  getLocation(): Location{
+  getLocation(): Customer{
 
-    var coords = new Location(0, 0, false, '','');
+    var coords = new Customer(0, 0, false, '','','');
     if (navigator.geolocation) {
 
       navigator.geolocation.getCurrentPosition(showUbication,errorUbication);

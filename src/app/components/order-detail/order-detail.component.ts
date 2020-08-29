@@ -1,7 +1,7 @@
 import { Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
 import { FriesOrderService } from '../../services/fries-order.service';
 import { LocationService } from '../../services/location.service';
-import { Location } from '../../models/location';
+import { Customer } from '../../models/customer';
 import * as L from 'leaflet';
 
 @Component({
@@ -13,7 +13,7 @@ import * as L from 'leaflet';
 export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public objects2Print = [];
   public marker;
-  public location: Location;
+  public customer: Customer;
 
   // Manual address data
   public manualAddress: boolean;
@@ -21,6 +21,8 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public neighborhood: string;
   public extNumber: number;
   public intNumber: number;
+  public name: string;
+  public nameShow: string;
 
   constructor(
     private _friesOrderService: FriesOrderService,
@@ -32,11 +34,14 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     this.neighborhood = '';
     this.extNumber = 0;
     this.intNumber = 0;
+    this.name = '';
+    this.nameShow = '';
+
   }
 
   ngOnInit(): void {
+    if(localStorage.getItem('customerName')){this.nameShow = localStorage.getItem('customerName')}
   }
-
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -47,14 +52,14 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
   mouseUp(){
     let location = this.marker.getLatLng();
-    if((this.location.latitude != location.lat) &&
-       (this.location.longitude != location.lng)){
+    if((this.customer.latitude != location.lat) &&
+       (this.customer.longitude != location.lng)){
         
-        this.location.latitude = location.lat;
-        this.location.longitude = location.lng;
+        this.customer.latitude = location.lat;
+        this.customer.longitude = location.lng;
         this._locationService.getAddress(location.lat.toString(),location.lng.toString()).subscribe(
           result => {
-                     this.location.address = result.items[0].address.label;
+                     this.customer.address = result.items[0].address.label;
                      //console.log(result);
          },
           error => {
@@ -81,11 +86,11 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     map.once('locationfound',
               e => {
                       this.marker = new L.marker([e.latlng.lat, e.latlng.lng],{draggable:'true'}).addTo(map);
-                      this.location = new Location(e.latlng.lat,e.latlng.lng,true,'','');
-                      if(localStorage.getItem('manualAddress')){this.location.manualAddress = localStorage.getItem('manualAddress')}
+                      this.customer = new Customer(e.latlng.lat,e.latlng.lng,true,'','','');
+                      if(localStorage.getItem('manualAddress')){this.customer.manualAddress = localStorage.getItem('manualAddress')};
                       this._locationService.getAddress(e.latlng.lat.toString(),e.latlng.lng.toString()).subscribe(
                         result => {
-                         this.location.address = result.items[0].title;
+                         this.customer.address = result.items[0].title;
                         },
                         error => {
                           console.log(<any>error);
@@ -142,7 +147,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     localStorage.removeItem(id.toString());
   }
 
-  onSubmitManualAddress(){
+  onSubmitManualAddress(form){
     let setManualAdress = this.street.concat(' ','#',this.extNumber.toString());
 
     if( this.intNumber > 0){
@@ -150,7 +155,17 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     }
     setManualAdress = setManualAdress.concat(', Col. ',this.neighborhood);
 
-    this.location.manualAddress = setManualAdress;
-    localStorage.setItem('manualAddress', this.location.manualAddress);
+    this.customer.manualAddress = setManualAdress;
+    localStorage.setItem('manualAddress', this.customer.manualAddress);
+
+    form.reset();
+  }
+
+  onSubmitName(form){
+    localStorage.setItem('customerName', this.name);
+    this.nameShow = this.name;
+
+    form.reset();
+    console.log("Pericos");
   }
 }

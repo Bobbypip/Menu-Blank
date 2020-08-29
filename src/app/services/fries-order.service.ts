@@ -96,7 +96,8 @@ export class FriesOrderService {
       let key = localStorage.key(i);
 
       if((key != "primaryKey") && 
-         (key != "manualAddress")){
+         (key != "manualAddress") &&
+         (key != "customerName")){
         orderArray.push( JSON.parse(localStorage.getItem(localStorage.key(i))) );
       }
     }

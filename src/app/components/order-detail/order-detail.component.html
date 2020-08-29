@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h3 class="my-3 text-center">Resumen del pedido</h3>
+            <h3 class="my-3 text-center">Resumen del Pedido</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" *ngFor="let item of objects2Print">
                     <div class="deleteButton">
@@ -65,21 +65,28 @@
             <h3 class="my-3 text-center">Datos de Envío</h3>
             <h6 class="my-2 text-center">Solo envíos dentro de Celaya, Gto, México</h6>
             <h5>Nombre</h5>
-            <form #formName="ngForm">
+            <form #formName="ngForm" (ngSubmit)="onSubmitName(formName)">
                 <div class="form-row">
                     <div class="col-lg-10">
                         <label for="name">Nombre del cliente</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" #nameVal="ngModel" [(ngModel)]="name" required>
+                        <span class="text-danger" *ngIf="nameVal.touched && !nameVal.valid">Escribe un nombre para usarlo en tu pedido</span>
                     </div>
                 </div>
-                <input type="submit" value="Usar este nombre"class="btn btn-primary mt-3"/>
+                <input type="submit" value="Usar este nombre" class="btn btn-primary mt-3" [disabled]="!formName.form.valid"/>
+                <div class="form-row mt-3">
+                    <div class="col-auto" *ngIf="nameShow!=''">
+                        Tu nombre: {{nameShow}} <br>
+                        <span class="notice">Si puedes ver este nombre, se usara en tu pedido.</span>
+                    </div>
+                </div>
             </form>
             <h5 class="mt-3">Dirección</h5>
             <div class="custom-control custom-switch mt-3">
                 <input type="checkbox" class="custom-control-input" [(ngModel)]="manualAddress" id="customSwitch1">
                 <label class="custom-control-label" for="customSwitch1">Usar dirección de envío escrita manualmente</label>
             </div>
-            <form class="mt-3" #formManualAddress="ngForm" *ngIf="manualAddress" (ngSubmit)="onSubmitManualAddress()">
+            <form class="mt-3" #formManualAddress="ngForm" *ngIf="manualAddress" (ngSubmit)="onSubmitManualAddress(formManualAddress)">
                 <div class="form-row">
                     <div class="col-lg-10">
                         <label for="street">Calle</label>
@@ -102,16 +109,16 @@
                         <input type="number" class="form-control" name="intNumber" min="0" [(ngModel)]="intNumber">
                     </div>
                 </div>
-                <input type="submit" value="Usar esta dirección"class="btn btn-primary mt-3" [disabled]="!formManualAddress.form.valid"/>
+                <input type="submit" value="Usar esta dirección" class="btn btn-primary mt-3" [disabled]="!formManualAddress.form.valid"/>
                 <div class="form-row mt-3">
-                    <div class="col-auto" *ngIf="location.manualAddress!=''">
-                        Tu dirección: {{location.manualAddress}} <br>
-                        <span class="notice">Si puedes ver esta dirección se usara en lugar de la del mapa debajo.</span>
+                    <div class="col-auto" *ngIf="customer.manualAddress!=''">
+                        Tu dirección: {{customer.manualAddress}} <br>
+                        <span class="notice">Si puedes ver esta dirección, se usara en lugar de la del mapa debajo.</span>
                     </div>
                 </div>
             </form>
-            <div class="mt-4" *ngIf="location">
-                {{location.address}}
+            <div class="mt-4" *ngIf="customer">
+                {{customer.address}}
             </div>
             <div id="map"
                 (mouseup)="mouseUp()"
