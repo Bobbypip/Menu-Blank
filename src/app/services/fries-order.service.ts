@@ -105,6 +105,7 @@ export class FriesOrderService {
     return orderArray;
   }
 
+  // Returns the Sum of all the prices of each order of fries
   getCompleteOrderPrice(): number{
     let orderArray: FriesOrder[] = this.getLocalStorageData();
     let totalPrice:number = 0;

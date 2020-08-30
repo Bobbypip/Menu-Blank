@@ -79,13 +79,29 @@
 
 #map{
     width: auto;
-    height: 500px;
+    height: 100%;
     border-style: groove;
     z-index:1;
-    /*visibility: hidden;*/
+}
+
+.hideMap{
+    height: 1px;
+    visibility: hidden;
+}
+
+.showMap{
+    height: 500px;
+    margin-bottom: 45px;
 }
 
 .notice{
     font-size: 10px;
     font-weight: bold;
+}
+
+.divisionLine{
+    width: auto;
+    border-bottom: 3px solid #DCDCDC;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }

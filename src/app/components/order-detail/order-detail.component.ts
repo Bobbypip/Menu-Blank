@@ -23,6 +23,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public intNumber: number;
   public name: string;
   public nameShow: string;
+  public totalPrice: number;
 
   constructor(
     private _friesOrderService: FriesOrderService,
@@ -36,6 +37,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     this.intNumber = 0;
     this.name = '';
     this.nameShow = '';
+    this.totalPrice = 0;
 
   }
 
@@ -46,8 +48,11 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
   }
+
   ngDoCheck(): void {
     this.objects2Print = this._friesOrderService.getObjects2Print();
+    this.totalPrice = this._friesOrderService.getCompleteOrderPrice();
+    console.log(this.totalPrice);
   }
 
   mouseUp(){
@@ -166,6 +171,5 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     this.nameShow = this.name;
 
     form.reset();
-    console.log("Pericos");
   }
 }

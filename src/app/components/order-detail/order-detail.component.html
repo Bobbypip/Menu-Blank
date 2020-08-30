@@ -60,6 +60,13 @@
             </ul>
         </div>
     </div>
+    <div class="row text-center mt-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <h4>Total: {{totalPrice | currency:'MXN'}}</h4>
+        </div>
+    </div>
+    <div class="divisionLine">
+    </div>
     <div class="row set">
         <div class="col-12">
             <h3 class="my-3 text-center">Datos de Envío</h3>
@@ -113,16 +120,18 @@
                 <div class="form-row mt-3">
                     <div class="col-auto" *ngIf="customer.manualAddress!=''">
                         Tu dirección: {{customer.manualAddress}} <br>
-                        <span class="notice">Si puedes ver esta dirección, se usara en lugar de la del mapa debajo.</span>
+                        <span class="notice">Si puedes ver esta dirección, se usara en tu pedido.</span>
                     </div>
                 </div>
             </form>
-            <div class="mt-4" *ngIf="customer">
-                {{customer.address}}
-            </div>
-            <div id="map"
-                (mouseup)="mouseUp()"
-            >
+            <div [ngClass]="{hideMap: manualAddress, showMap: !manualAddress}">
+                <div class="mt-4" *ngIf="customer">
+                    {{customer.address}}
+                </div>
+                <div id="map"
+                    (mouseup)="mouseUp()"
+                >
+                </div>
             </div>
         </div>
     </div>
