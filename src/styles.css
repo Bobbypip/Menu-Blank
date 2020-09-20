@@ -105,3 +105,24 @@
     margin-top: 30px;
     margin-bottom: 15px;
 }
+
+.requestOrder{
+    width: 32px;
+    height: 32px;
+    background: url(./app/assets/icons/whatsapp-icon.png) no-repeat;
+}
+
+.hoverRequestOrder{
+    width: 32px;
+    height: 32px;
+    background: url(./app/assets/icons/whatsapp-icon-hover.png) no-repeat;
+}
+
+.sendToWhatsapp{
+    cursor: pointer;
+}
+
+.sendToWhatsapp:hover{
+    cursor: pointer;
+    color: #DCDCDC;
+}

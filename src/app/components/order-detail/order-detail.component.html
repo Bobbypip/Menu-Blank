@@ -140,5 +140,8 @@
 
 <div class="footer">
     <div><a [routerLink]="['/']" class="text-decoration-none text-light" >Agregar otra order</a></div>
-    <div>Hola</div>
+    <div class="d-flex justify-content-center align-items-center sendToWhatsapp" (click)="sendToWhatsapp()" (mouseover)="changeStyle($event)" (mouseout)="changeStyle($event)">
+        <div [ngClass]="hoverSendToWhatsappImg" class="requestOrder mx-0"></div>
+        <div class="mx-1">Solcititar pedido</div>
+    </div>
 </div>
