@@ -88,6 +88,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
     var map;
     var tiles;
+    var soro;
 
     map = new L.map('map').locate({setView: true, maxZoom: 17});
 
