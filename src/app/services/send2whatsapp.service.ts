@@ -7,6 +7,7 @@ export class Send2whatsappService {
 
   constructor() { }
 
+  // Sets the message to be printed and understable by Whatsapp
   send(customerLat, customerLon, manualAddressOK, objects2Print){
     console.log("Whatsapp");
     let name = localStorage.getItem('customerName');
@@ -71,20 +72,25 @@ export class Send2whatsappService {
             order = order + await getfPortionName(i);
       }
 
-      if(localStorage.getItem("customerName")){
-        if(localStorage.getItem("customerName")){
-          window.location.href = "https://api.whatsapp.com/send?phone=5214612543596&text=%2aNombre:%2a%20"+name+"%0a%2aDirección:%2a%20"+address+"%0a%0a%2aResumen%20del%20pedido:%2a%0a"+order;
-          localStorage.clear();
-        }else{
-          alert("Agrega al menos una orden a tu pedido")
-        }
-      }else{
-        alert("Proporciona tu nombre para levantar tu pedido")
-      }
-      
+      this.verifyIfNameOrOrderIsMissing(name, address, order);
+
       console.log('End');
     }
 
     forLoop(1);
+  }
+  
+  // Checks if in LocalStorage there are different keys apart from primaryKey and customerName
+  verifyIfNameOrOrderIsMissing(name: string, address: string, order: string){
+    if(localStorage.getItem("customerName")){
+      if(localStorage.length > 2){
+          window.location.href = "https://api.whatsapp.com/send?phone=5214612543596&text=%2aNombre:%2a%20"+name+"%0a%2aDirección:%2a%20"+address+"%0a%0a%2aResumen%20del%20pedido:%2a%0a"+order;
+          localStorage.clear();
+      }else{
+        alert("Agrega al menos una orden a tu pedido")
+      }
+    }else{
+      alert("Proporciona tu nombre para levantar tu pedido")
+    }
   }
 }

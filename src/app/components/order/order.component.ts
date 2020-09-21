@@ -57,6 +57,8 @@ export class OrderComponent implements OnInit, DoCheck {
 
     // Update total price
     this.totalPrice = this._friesOrderService.getCompleteOrderPrice() + this.friesOrder.fPrice;
+
+    console.log(this.friesOrder);
   }
 
   ngOnInit(): void {
@@ -88,6 +90,9 @@ export class OrderComponent implements OnInit, DoCheck {
 
     // Add the Id to the order
     this.friesOrder.fiD = this._friesOrderService.setId();
+
+    // When the FriesOrder object doesn't have extra portions, the extra portions option is set to false
+    this._friesOrderService.verifyIfHasExtraPortions(this.friesOrder);
 
     // Save the order into the Local Storage
     localStorage.setItem(this.friesOrder.fiD.toString(), JSON.stringify(this.friesOrder));

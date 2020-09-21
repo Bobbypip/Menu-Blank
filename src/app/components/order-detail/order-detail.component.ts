@@ -62,6 +62,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     this.totalPrice = this._friesOrderService.getCompleteOrderPrice();
   }
 
+  // When release the pointer on map the location is newly set
   mouseUp(){
     let location = this.marker.getLatLng();
     if((this.customer.latitude != location.lat) &&
@@ -82,6 +83,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
        }
   }
 
+  // Inits the map
   initMap(): void {
 
     var map;
@@ -155,10 +157,12 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     
   }
 
+  // Delete and order clicking on the garbage icon
   deleteOrder(id){
     localStorage.removeItem(id.toString());
   }
 
+  // Submits the Adress that the user sets
   onSubmitManualAddress(form){
     let setManualAdress = this.street.concat(' ','Ext.',this.extNumber.toString());
 
@@ -173,6 +177,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     form.reset();
   }
 
+  // Submit the name that the user sets
   onSubmitName(form){
     localStorage.setItem('customerName', this.name);
     this.nameShow = this.name;
@@ -180,10 +185,12 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
     form.reset();
   }
 
+  // Sends the order to whatsapp
   sendToWhatsapp(){
     this._send2WhatsappService.send(this.customer.latitude, this.customer.longitude, this.manualAddress, this.objects2Print)
   }
 
+  // Used to the hover of Whatsappicon and "Solicitar Pedido"
   changeStyle($event){
     this.hoverSendToWhatsappImg = $event.type == 'mouseover' ? 'hoverRequestOrder' : 'requestOrder';
   }

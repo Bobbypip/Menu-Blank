@@ -151,4 +151,9 @@ export class FriesOrderService {
     return actual;
   }
 
+  // Check a FriesOrder object, turn to false the fExtraPortion field if the fExtraPortions array is empty
+  verifyIfHasExtraPortions(friesOrder: FriesOrder){
+    if(friesOrder.fExtraPortions.length === 0){friesOrder.fExtraPortion = false}
+  }
+
 }
