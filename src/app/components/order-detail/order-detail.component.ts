@@ -1,15 +1,18 @@
 import { Component, OnInit, DoCheck, AfterViewInit} from '@angular/core';
 import { FriesOrderService } from '../../services/fries-order.service';
 import { LocationService } from '../../services/location.service';
+import { Send2whatsappService } from '../../services/send2whatsapp.service';
 import { Customer } from '../../models/customer';
 import * as L from 'leaflet';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.css'],
-  providers: [FriesOrderService]
+  providers: [FriesOrderService,
+              LocationService,
+              Send2whatsappService
+             ]
 })
 export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   public objects2Print = [];
@@ -29,7 +32,8 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
   constructor(
     private _friesOrderService: FriesOrderService,
-    private _locationService: LocationService
+    private _locationService: LocationService,
+    private _send2WhatsappService: Send2whatsappService
   ) {
     this.objects2Print = this._friesOrderService.getObjects2Print();
     this.manualAddress = false;
@@ -46,6 +50,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   ngOnInit(): void {
     if(localStorage.getItem('customerName')){this.nameShow = localStorage.getItem('customerName')}
     console.log(this.objects2Print);
+    console.log(localStorage.length);
   }
 
   ngAfterViewInit(): void {
@@ -176,76 +181,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   sendToWhatsapp(){
-    console.log("Whatsapp");
-    let name = localStorage.getItem('customerName');
-    let manualAddress = localStorage.getItem('manualAddress');
-    let lat = this.customer.latitude;
-    let lon = this.customer.longitude;
-    let googleAddress = "https://www.google.com/maps/search/?api=1%26query="+lat+","+lon+"";
-    let address = "";
-    var order = '';
-    this.manualAddress ? address = manualAddress : address = googleAddress;
-
-    const getfPortionName = i => {
-
-      let prt = this.objects2Print[i];
-      let extraPotions = "";
-      let dressings = "";
-
-      if(prt.fExtraPortion){
-        if ((prt[0].quantity > 0) || (prt[1].quantity > 0) || (prt[2].quantity > 0) || (prt[4].quantity > 0)){
-          extraPotions = extraPotions + "Porciones Extras:" + "%0a";
-          if(prt[0].quantity > 0){ extraPotions = extraPotions + "%20%20%20%20" + prt[0].quantity + " x " + prt[0].extraPortionName + "%0a"}
-          if(prt[1].quantity > 0){ extraPotions = extraPotions + "%20%20%20%20" + prt[1].quantity + " x " + prt[1].extraPortionName + "%0a"}
-          if(prt[2].quantity > 0){ extraPotions = extraPotions + "%20%20%20%20" + prt[2].quantity + " x " + prt[2].extraPortionName + "%0a"}
-          if(prt[3].quantity > 0){ extraPotions = extraPotions + "%20%20%20%20" + prt[3].quantity + " x " + prt[3].extraPortionName + "%0a"}
-        }
-      }
-
-      if(prt.fDressingsOrder.cebollaAsada ||
-         prt.fDressingsOrder.chimichurri ||
-         prt.fDressingsOrder.cilantro ||
-         prt.fDressingsOrder.ketchup ||
-         prt.fDressingsOrder.pinaHabanero ||
-         prt.fDressingsOrder.quesoAmarillo ||
-         prt.fDressingsOrder.ranch ||
-         prt.fDressingsOrder.salsaBBQ ||
-         prt.fDressingsOrder.salsaBuffalo ||
-         prt.fDressingsOrder.salsaVerde ||
-         prt.fDressingsOrder.tamarindoPicante){
-          dressings = dressings + "Aderezos:" + "%0a"
-
-          if(prt.fDressingsOrder.cebollaAsada){ dressings = dressings + "%20%20%20%20" + "Cebolla asada%0a" }
-          if(prt.fDressingsOrder.chimichurri){ dressings = dressings + "%20%20%20%20" + "Chimichurri%0a" }
-          if(prt.fDressingsOrder.cilantro){ dressings = dressings + "%20%20%20%20" + "Cilantro%0a" }
-          if(prt.fDressingsOrder.ketchup){ dressings = dressings + "%20%20%20%20" + "Cilantro%0a" }
-          if(prt.fDressingsOrder.pinaHabanero){ dressings = dressings + "%20%20%20%20" + "Piña Habanero%0a" }
-          if(prt.fDressingsOrder.quesoAmarillo){ dressings = dressings + "%20%20%20%20" + "Queso Amarillo%0a" }
-          if(prt.fDressingsOrder.ranch){ dressings = dressings + "%20%20%20%20" + "Ranch%0a" }
-          if(prt.fDressingsOrder.salsaBBQ){ dressings = dressings + "%20%20%20%20" + "Salasa BBQ%0a" }
-          if(prt.fDressingsOrder.salsaBuffalo){ dressings = dressings + "%20%20%20%20" + "Salsa Buffalo%0a" }
-          if(prt.fDressingsOrder.salsaVerde){ dressings = dressings + "%20%20%20%20" + "Salsa Verde%0a" }
-          if(prt.fDressingsOrder.tamarindoPicante){ dressings = dressings + "%20%20%20%20" + "Tamarindo Picante%0a" }
-        }
-
-      return "%0a" + "%2aOrden%2a" + "%0a" + "Porción: "+ prt.fPortion.name + "%0a" + extraPotions + dressings;
-    }
-
-    const forLoop = async _ => {
-
-      console.log('Start')
-
-      for (var i = 0; i<this.objects2Print.length; i++){
-            order = order + await getfPortionName(i);
-      }
-
-      window.location.href = "https://api.whatsapp.com/send?phone=5214612543596&text=%2aNombre:%2a%20"+name+"%0a%2aDirección:%2a%20"+address+"%0a%0a%2aResumen%20del%20pedido:%2a%0a"+order;
-      
-      localStorage.clear();
-      console.log('End');
-    }
-
-    forLoop(1);
+    this._send2WhatsappService.send(this.customer.latitude, this.customer.longitude, this.manualAddress, this.objects2Print)
   }
 
   changeStyle($event){
