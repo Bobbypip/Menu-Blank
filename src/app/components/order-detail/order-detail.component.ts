@@ -50,8 +50,6 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngOnInit(): void {
     if(localStorage.getItem('customerName')){this.nameShow = localStorage.getItem('customerName')}
-    console.log(this.objects2Print);
-    console.log(localStorage.length);
   }
 
   ngAfterViewInit(): void {
@@ -209,5 +207,9 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
   // Used to the hover of Whatsappicon and "Solicitar Pedido"
   changeStyle($event){
     this.hoverSendToWhatsappImg = $event.type == 'mouseover' ? 'hoverRequestOrder' : 'requestOrder';
+  }
+
+  myFunction(){
+    alert("hola");
   }
 }
