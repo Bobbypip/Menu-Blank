@@ -3,6 +3,7 @@ import { FriesOrderService } from '../../services/fries-order.service';
 import { LocationService } from '../../services/location.service';
 import { Send2whatsappService } from '../../services/send2whatsapp.service';
 import { Customer } from '../../models/customer';
+import { icon, Marker } from 'leaflet';
 import * as L from 'leaflet';
 
 @Component({
@@ -88,9 +89,23 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
 
     var map;
     var tiles;
-    var soro;
 
     map = new L.map('map').locate({setView: true, maxZoom: 17});
+
+    const iconRetinaUrl = 'assets/marker-icon-2x.png';
+    const iconUrl = 'assets/marker-icon.png';
+    const shadowUrl = 'assets/marker-shadow.png';
+    const iconDefault = icon({
+      iconRetinaUrl,
+      iconUrl,
+      shadowUrl,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
+    Marker.prototype.options.icon = iconDefault;
 
     tiles = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                                   {
@@ -100,7 +115,7 @@ export class OrderDetailComponent implements OnInit, DoCheck, AfterViewInit {
                                 ).addTo(map);
     map.once('locationfound',
               e => {
-                      this.marker = new L.marker([e.latlng.lat, e.latlng.lng],{draggable:'true'}).addTo(map);
+                      this.marker = new L.marker([e.latlng.lat, e.latlng.lng], {draggable:'true'}).addTo(map);
                       this.customer = new Customer(e.latlng.lat,e.latlng.lng,true,'','','');
                       if(localStorage.getItem('manualAddress')){this.customer.manualAddress = localStorage.getItem('manualAddress')};
                       this._locationService.getAddress(e.latlng.lat.toString(),e.latlng.lng.toString()).subscribe(
