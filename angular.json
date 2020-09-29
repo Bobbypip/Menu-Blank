@@ -131,7 +131,12 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
-          "options": {}
+          "options": {
+            "baseHref": "https://Bobbypip.github.io/Menu-Blank/",
+            "repo": "https://github.com/Bobbypip/Menu-Blank.git",
+            "name": "Bobbypip",
+            "email": "roroal314@gmail.com"
+          }
         }
       }
     }
